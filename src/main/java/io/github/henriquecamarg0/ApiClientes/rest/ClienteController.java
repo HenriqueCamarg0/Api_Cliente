@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
-@CrossOrigin ("*")
+@CrossOrigin("http://localhost:4200/")
 public class ClienteController {
 
     private final ClienteRepository repository;
@@ -21,11 +22,17 @@ public class ClienteController {
         this.repository = repository;
     }
 
+    @GetMapping
+    public List<Cliente> obterTodos() {
+        return repository.findAll();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente salvar( @RequestBody @Valid Cliente cliente ){
         return repository.save(cliente);
     }
+
 
     @GetMapping("{id}")
     public Cliente acharPorId( @PathVariable Integer id ){
